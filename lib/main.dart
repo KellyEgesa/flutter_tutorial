@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() => runApp(_MyApp());
 
@@ -15,7 +15,7 @@ class _MyApp extends StatefulWidget {
 class _MyAppState extends State<_MyApp> {
   var _questionIndex = 0;
 
-  final questions = [
+  final _questions = [
     {
       "questionText": "What's your favourite color?",
       "answers": ["Black", "Red", "Green", "White"],
@@ -34,10 +34,6 @@ class _MyAppState extends State<_MyApp> {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-    if (_questionIndex < questions.length) {
-      print("We have more questions");
-    }
-
     print(_questionIndex);
   }
 
@@ -48,18 +44,11 @@ class _MyAppState extends State<_MyApp> {
       appBar: AppBar(
         title: Text("My First App"),
       ),
-      body: _questionIndex < questions.length
-          ? Column(children: [
-              Question(
-                questions[_questionIndex]['questionText'],
-              ),
-              ...(questions[_questionIndex]["answers"] as List<String>)
-                  .map((answer) => Answer(_answerQuestion, answer))
-                  .toList()
-            ])
-          : Center(
-              child: Text("No more Questions"),
-            ),
+      body: _questionIndex < _questions.length
+          ? Quiz(_answerQuestion, _questions, _questionIndex)
+          : Result(),
     ));
   }
 }
+//always prioritise smaller widgets
+//will break this down
